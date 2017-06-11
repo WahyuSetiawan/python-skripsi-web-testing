@@ -1,0 +1,69 @@
+﻿{% extends "app/layout.html" %}
+
+{% block content %}
+
+<h1>Upload Data </h1>
+
+<div class="panel">
+    <div class="panel-body">
+
+        <div class="col-md-12">
+            data train yang telah dipilih : {{ datatrain.id }} - {{ datatrain.valuedata }}
+        </div>
+
+        <div class="col-md-12">
+            Upload model data testing, sebelum melakukan testing :
+        </div>
+
+        <div class="col-md-12">
+            <form method="post" enctype="multipart/form-data" action="{% url 'upload'%}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="exampleInputFile">File input</label>
+                    <input type="file" name="datatraining" id="exampleInputFile">
+                    <p class="help-block">Example block-level help text here.</p>
+                </div>
+                <button type="submit" class="btn btn-success">Upload</button>
+            </form>
+        </div>
+
+        <div class="col-md-12">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Data Training</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for data in gambars %}
+                        <tr>
+                            <td>{{ data.id }}</td>
+                            <td>{{ data.datatraining }}</td>
+                            <td>
+                                <button class="btn btn-info" onclick="window.location.href = '{% url 'pilihdatatraining' %}?datatrain={{ data.datatraining }}'" type="button">Pilih Data Training</button>
+                                <button class="btn btn-danger" type="button">Hapus Data Training</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        {% if saved %}
+        <strong>Your profile was saved.</strong>
+        {% endif %}
+      
+        {% if not saved %}
+        <strong>Your profile was not saved.</strong>
+        {% endif %}
+
+        <div class="col-md-12">
+            Apabila belum, dapat didownload pada :
+        </div>
+    </div>
+</div>
+
+{% endblock %}

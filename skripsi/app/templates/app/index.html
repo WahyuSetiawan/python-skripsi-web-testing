@@ -1,0 +1,20 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron centered">
+    <h1>Pengolahan Data Twitter</h1>
+    <p class="lead">Masukan hastag yang ingin anda testing</p>
+    <div class="form-group">
+        <form action="{% url 'testing' %}" enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            <input type="file" name="datatesting" />
+            <button type="submit" class="btn btn-primary">Proses data Twitter</button>            
+        </form>
+    </div>  
+</div>
+
+<div class="row">
+</div>
+
+{% endblock %}

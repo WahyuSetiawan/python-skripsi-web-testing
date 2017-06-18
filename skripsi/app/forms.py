@@ -22,3 +22,6 @@ class UploadFileForm(forms.Form):
 
 class UploadFileTesting(forms.Form):
     datatesting = forms.FileField()
+
+class UploadFileFeature(forms.Form):
+    featurefile = forms.FileField()

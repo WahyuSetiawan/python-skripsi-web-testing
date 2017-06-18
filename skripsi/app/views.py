@@ -7,8 +7,8 @@ from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
 
-from .forms import UploadFileForm, UploadFileTesting
-from .models import SaveFileForm, setting, testingData
+from .forms import UploadFileForm, UploadFileTesting, UploadFileFeature
+from .models import SaveFileForm, setting, testingData, FeatureList
 
 from .TextMiningTesting import *
 
@@ -122,3 +122,51 @@ def pilihdatatraining(request):
     gambars = SaveFileForm.objects.all()
 
     return render(request, 'app/upload.html', locals())
+
+def pilihfeature(request):
+    if request.method == "GET" and 'datafeature' in request.GET:
+        datatrain = setting.objects.filter(tag = "featurelist")[0]
+
+        if datatrain == None:
+            set = setting(tag = "featurelist", valuedata = request.GET['datafeature'])
+            set.save()
+        else:
+            datatrain.valuedata = request.GET['datafeature']
+            datatrain.save()
+
+    gambars = SaveFileForm.objects.all()
+
+    return render(request, 'app/featurelist.html', locals())
+
+def hapusfeature(request):
+    
+    if request.method == "GET" and 'datatrain' in request.GET:
+        datatrain = setting.objects.filter(tag = "datatrain")[0]
+
+    gambars = SaveFileForm.objects.all()
+
+    return render(request, 'app/featurelist.html', locals())
+
+def feature(request):
+    saved = False
+    #assert isinstance(request, HttpRequest)
+    
+    if request.method == "POST":
+        fileForm = UploadFileFeature(request.POST, request.FILES)
+
+        if fileForm.is_valid():
+            featurelist = FeatureList()
+            featurelist.FeatureList = fileForm.cleaned_data['featurefile']
+            featurelist.save()
+            saved = True
+    else :
+        file = FeatureList()
+
+    gambars = FeatureList.objects.all()
+#   datatrain = setting.objects.filter(tag = "featurelist")[0]
+
+    return render(
+        request,
+        'app/featurelist.html',
+        locals()
+    )

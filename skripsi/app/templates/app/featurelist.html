@@ -16,11 +16,11 @@
         </div>
 
         <div class="col-md-12">
-            <form method="post" enctype="multipart/form-data" action="{% url 'upload'%}">
+            <form method="post" enctype="multipart/form-data" action="{% url 'feature'%}">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="exampleInputFile">File input</label>
-                    <input type="file" name="datatraining" id="exampleInputFile">
+                    <input type="file" name="featurefile" id="featurefile">
                     <p class="help-block">Example block-level help text here.</p>
                 </div>
                 <button type="submit" class="btn btn-success">Upload</button>
@@ -40,10 +40,10 @@
                     {% for data in gambars %}
                         <tr>
                             <td>{{ data.id }}</td>
-                            <td>{{ data.datatraining }}</td>
+                            <td>{{ data.FeatureList }}</td>
                             <td>
-                                <button class="btn btn-info" onclick="window.location.href = '{% url 'pilihdatatraining' %}?datatrain={{ data.datatraining }}'" type="button">Pilih</button>
-                                <button class="btn btn-danger" type="button">Hapus</button>
+                                <button class="btn btn-info" onclick="window.location.href = '{% url 'pilihfeature' %}?datafeature={{ data.FeatureList }}'" type="button">Pilih</button>
+                                <button class="btn btn-danger" onclick="window.location.href = '{% url 'hapusfeature' %}?datafeature={{ data.FeatureList }}'" type="button">Hapus</button>
                             </td>
                         </tr>
                     {% endfor %}

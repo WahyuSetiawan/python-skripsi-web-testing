@@ -40,7 +40,10 @@ urlpatterns = [
 
     url(r'^testing',  app.views.testing, name="testing"),
     url(r'^upload',  app.views.upload, name="upload"),
+    url(r'^feature',  app.views.feature, name="feature"),
     url(r'^pilihdatatraining',  app.views.pilihdatatraining, name="pilihdatatraining"),
+    url(r'^pilihfeature',  app.views.pilihfeature, name="pilihfeature"),
+    url(r'^hapusfeature',  app.views.hapusfeature, name="hapusfeature"),
 
 
     # Uncomment the admin/doc line below to enable admin documentation:

@@ -26,3 +26,10 @@ class testingData(models.Model):
 
     class Meta:
         db_table = "jsonfiletesting"
+
+class FeatureList(models.Model):
+    id = models.AutoField(primary_key=True)
+    FeatureList = models.FileField(upload_to = "featurelist")
+
+    class Meta:
+        db_table = "featureList"

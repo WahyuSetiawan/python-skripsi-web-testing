@@ -242,46 +242,6 @@ class TrainingData:
         a = x1
         print(self.clf.predict(a))
 
-        ''''
-        self.exportModel('modelterbaru.sav')
-
-        self.list.addItem(''.join(['Selesai training model disimpan dalam ', os.path.dirname(__file__) , 'modelterbaru.csv']))
-
-        a = x1
-        print(clf.classes_)
-
-        dicision = self.persamaanSVM(a)
-        #dicision = clf.predict_proba(a)
-        print(dicision)
-        print(clf.predict(a))
-
-        #print(clf.predict([10.58,10.76,0.04013377926421405]))
-        #print(clf.predict([0, 0.09126984126984126,  1.3140096618357489]))
-        #print(clf.get_params())
-        w = clf.coef_[0]
-        #print(w)
-
-        a = -w[0] / w[1]
-
-        xx = np.linspace(0,12)
-        yy = a * xx - clf.intercept_[0] / w[1]
-
-        h0 = plt.plot(xx, yy, 'k-', label="non weighted div")
-
-        #'''
-
-'''
-        plt.scatter(X[:, 0], X[:, 1], c = y)
-        plt.legend()
-        plt.show()
-
-
-
-'''
-
-
-
-
 class TfIdf:
     def __init__(self):
         self.weighted = False

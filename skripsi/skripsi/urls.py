@@ -40,6 +40,9 @@ urlpatterns = [
         name='logout'),
 
     url(r'^testing',  app.views.testing, name="testing"),
+    url(r'^daftartesting',  app.views.daftartesting, name="daftartesting"),
+    url(r'^hapustesting',  app.views.hapustesting, name="hapustesting"),
+
 
     url(r'^uploaddatatraining',  app.views.uploaddatatraining, name="uploaddatatraining"),
     url(r'^pilihdatatraining',  app.views.pilihdatatraining, name="pilihdatatraining"),

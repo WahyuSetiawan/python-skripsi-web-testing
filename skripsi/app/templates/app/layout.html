@@ -8,11 +8,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/website.css' %}" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.15/datatables.min.css"/>
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.15/datatables.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
 </head>
@@ -32,20 +34,15 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'uploaddatatraining' %}">Model Testing</a></li>
                     <li><a href="{% url 'feature' %}">Feature List</a></li>
-                    <li><a href="">Testing</a></li>
+                    <li><a href="{% url 'daftartesting' %}">Testing</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
     <div class="container body-content">
-{% block content %}{% endblock %}
-        <div class="footer">
-        <hr/>
-        <footer>
-            <p>&copy; {{ year }} - My Django Application</p>
-        </footer>
-            </div>
+        {% block content %}{% endblock %}
+        
     </div>
 
     <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>

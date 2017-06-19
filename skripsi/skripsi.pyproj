@@ -83,6 +83,7 @@
   <ItemGroup>
     <Content Include="app\static\app\content\Gunung-Bromo-Jawa-Timur.jpg" />
     <Content Include="app\static\app\content\website.css" />
+    <Content Include="app\templates\app\daftartesting.html" />
     <Content Include="app\templates\app\testing.html" />
     <Content Include="app\templates\app\upload.html" />
     <Content Include="app\templates\app\featurelist.html" />

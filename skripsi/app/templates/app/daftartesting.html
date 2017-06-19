@@ -1,13 +1,13 @@
 ﻿{% extends "app/layout.html" %}
 
 {% block content %}
+
 <div class="panel">
     <div class="panel-body">
         <div class="col-md-12" style="text-align: center">
-            <h2>Model Training </h2>
+            <h2>Daftar File Tersimpan</h2>
         </div>
 
-        
         {% if saved != None %}
             {% if saved %}
             <div class="col-md-12">
@@ -44,32 +44,8 @@
             {% endif %}
         {% endif %}
 
-      
         <div class="col-md-12">
-            <strong>
-                <h4>
-                Upload feature list :
-                </h4>
-            </strong>
-        </div>
-
-        <div class="col-md-12">
-            <form method="post" enctype="multipart/form-data" action="{% url 'uploaddatatraining'%}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="exampleInputFile">File input</label>
-                    <input type="file" name="datatraining" id="exampleInputFile" accept=".pkl">
-                </div>
-                <button type="submit" class="btn btn-success">Upload</button>
-            </form>
-        </div>
-
-        <div class="col-md-12">
-            <h4>Daftar Data Training : </h4>
-        </div>
-
-        <div class="col-md-12">
-            <table class="table table-striped" id="table">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
@@ -78,32 +54,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for data in gambars %}
+                    {% for data in filetesting %}
                         <tr>
                             <td>{{ data.id }}</td>
-                            <td>{{ data.datatraining }}</td>
+                            <td>{{ data.datatesting }}</td>
                             <td>
-                                <button class="btn btn-info" onclick="window.location.href = '{% url 'pilihdatatraining' %}?datatrain={{ data.datatraining }}'" type="button">Pilih</button>
-                                <button class="btn btn-danger" onclick="window.location.href = '{% url 'hapusdatatraining' %}?datatrain={{ data.datatraining }}'" type="button">Hapus</button>
+                                <button class="btn btn-info" onclick="window.location.href = '{% url 'testing' %}?datatesting={{ data.datatesting }}'" type="button">Run</button>
+                                <button class="btn btn-danger" onclick="window.location.href = '{% url 'hapustesting' %}?datatesting={{ data.datatesting }}'" type="button">Hapus</button>
                             </td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-
-        <div class="col-md-12">
-            Feature list sekarang : {{ datatrain.0.id }} - {{ datatrain.0.valuedata }}
-        </div>
     </div>
 </div>
 
-{% endblock %}
-
-{% block scripts %}
-    <script>
-        $(document).ready(function () {
-            $('#table').DataTable({});
-        })
-    </script>
 {% endblock %}

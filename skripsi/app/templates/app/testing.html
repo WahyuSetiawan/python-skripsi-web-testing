@@ -2,9 +2,12 @@
 
 {% block content %}
 
-<h1>Hasil Testing Pada Aplikasi</h1>
+
 
 <div class="panel panel-default">
+    <div class="col-md-12" style="text-align: center">
+        <h2>Upload Hasil Klasifikasi Data Twitter </h2>
+    </div>
 
     <div id="donut-example" style="height: 250px;"></div>
 
@@ -102,9 +105,10 @@
         Morris.Donut({
             element: 'donut-example',
             data: [
-                { label: "Download Sales", value: 12 },
-                { label: "In-Store Sales", value: 30 },
-                { label: "Mail-Order Sales", value: 20 }
+
+                { label: "Positive", value: {{ counterhasil.positive }} },
+                { label: "Negative", value: {{ counterhasil.negative}} },
+                { label: "Neutral", value: {{ counterhasil.neutral }} }
             ]
         });
     });

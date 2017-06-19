@@ -10,7 +10,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f1d0ce40-e438-45c0-abe7-307bd90d26ed</ProjectGuid>
-    <ProjectHome>.</ProjectHome>
+    <ProjectHome>
+    </ProjectHome>
     <ProjectTypeGuids>{5F0BE9CA-D677-4A4D-8806-6076C0FAAD37};{349c5851-65df-11da-9384-00065b846f21};{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <StartupFile>manage.py</StartupFile>
     <SearchPath>
@@ -30,10 +31,20 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\Controller\FeatureList.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\Controller\ModelTraining.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\Controller\Testing.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="app\Controller\__init__.py" />
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
     <Compile Include="app\tests.py" />
-    <Compile Include="app\TextMiningTesting.py">
+    <Compile Include="app\Utility\TextMiningTesting.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="app\tfidf.py" />
@@ -54,6 +65,7 @@
   <ItemGroup>
     <Folder Include="app\" />
     <Folder Include="app\migrations\" />
+    <Folder Include="app\Controller\" />
     <Folder Include="app\Utility\" />
     <Folder Include="Utility\" />
     <Folder Include="app\Utility\__pycache__\" />

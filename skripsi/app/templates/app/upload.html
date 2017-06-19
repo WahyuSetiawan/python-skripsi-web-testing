@@ -1,18 +1,56 @@
 ﻿{% extends "app/layout.html" %}
 
 {% block content %}
-
-<h1>Upload Data </h1>
-
 <div class="panel">
     <div class="panel-body">
-
-        <div class="col-md-12">
-            Feature list sekarang : {{ datatrain.0.id }} - {{ datatrain.0.valuedata }}
+        <div class="col-md-12" style="text-align: center">
+            <h2>Model Training </h2>
         </div>
 
+        
+        {% if saved != None %}
+            {% if saved %}
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    <strong>Data berhasil disimpan</strong>
+                </div>
+            </div>
+            {% endif %}
+        
+            {% if not saved %}
+            <div class="col-md-12">
+                <div class="alert alert-danger" role="alert">
+                    <strong>Data gagal disimpan</strong>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+
+        {% if hapus != None %}
+            {% if hapus %}
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    <strong>Data berhasil dihapus</strong>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if not hapus %}
+            <div class="col-md-12">
+                <div class="alert alert-danger" role="alert">
+                    <strong>Data masih digunakan tidak dapat dihapus</strong>
+                </div>
+            </div>
+            {% endif %}
+        {% endif %}
+
+      
         <div class="col-md-12">
-            Upload feature list :
+            <strong>
+                <h4>
+                Upload feature list :
+                </h4>
+            </strong>
         </div>
 
         <div class="col-md-12">
@@ -20,7 +58,7 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="exampleInputFile">File input</label>
-                    <input type="file" name="datatraining" id="exampleInputFile">
+                    <input type="file" name="datatraining" id="exampleInputFile" accept=".pkl">
                 </div>
                 <button type="submit" class="btn btn-success">Upload</button>
             </form>
@@ -50,21 +88,8 @@
             </table>
         </div>
 
-
-        {% if saved %}
-        <strong>Your profile was saved.</strong>
-        {% endif %}
-      
-        {% if not saved %}
-        <strong>Your profile was not saved.</strong>
-        {% endif %}
-
-        {% if not hapus %}
-        <strong>Data masih digunakan tidak dapat dihapus</strong>
-        {% endif %}
-
         <div class="col-md-12">
-            Apabila belum, dapat didownload pada :
+            Feature list sekarang : {{ datatrain.0.id }} - {{ datatrain.0.valuedata }}
         </div>
     </div>
 </div>

@@ -31,6 +31,7 @@ urlpatterns = [
             }
         },
         name='login'),
+
     url(r'^logout$',
         django.contrib.auth.views.logout,
         {
@@ -39,9 +40,12 @@ urlpatterns = [
         name='logout'),
 
     url(r'^testing',  app.views.testing, name="testing"),
-    url(r'^upload',  app.views.upload, name="upload"),
-    url(r'^feature',  app.views.feature, name="feature"),
+
+    url(r'^uploaddatatraining',  app.views.uploaddatatraining, name="uploaddatatraining"),
     url(r'^pilihdatatraining',  app.views.pilihdatatraining, name="pilihdatatraining"),
+    url(r'^hapusdatatraining',  app.views.hapusdatatraining, name="hapusdatatraining"),
+
+    url(r'^feature',  app.views.feature, name="feature"),
     url(r'^pilihfeature',  app.views.pilihfeature, name="pilihfeature"),
     url(r'^hapusfeature',  app.views.hapusfeature, name="hapusfeature"),
 

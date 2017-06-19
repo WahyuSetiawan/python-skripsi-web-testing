@@ -8,7 +8,7 @@
     <div class="panel-body">
 
         <div class="col-md-12">
-            data train yang telah dipilih : {{ datatrain.id }} - {{ datatrain.valuedata }}
+            data train yang telah dipilih : {{ datatrain.0.id }} - {{ datatrain.0.valuedata }}
         </div>
 
         <div class="col-md-12">
@@ -58,6 +58,10 @@
       
         {% if not saved %}
         <strong>Your profile was not saved.</strong>
+        {% endif %}
+
+        {% if not hapus %}
+        <strong>Data masih digunakan tidak dapat dihapus</strong>
         {% endif %}
 
         <div class="col-md-12">

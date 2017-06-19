@@ -23,15 +23,18 @@ from matplotlib import style
 
 style.use("ggplot")
 
-positive = 'positif'
+positive = 'positive'
 negative = 'negative'
 neutral = 'neutral'
 
 class TrainingData:
 
-    def __init__(self, tweet, stopword, modeldatatraining):
+    def __init__(self, tweet, stopword, modeldatatraining, featurefile):
         self.st = open(stopword, 'r')
         self.stopWords = self.getStopWordList(stopword)
+
+        self.ff = open(featurefile, 'r')
+        self.feature = self.getFeatureList(self.ff)
 
         #Read the tweets one by one and process it
         ##inpTweets = csv.reader(open('data/sampleTweets.csv', 'rb'), delimiter=',', quotechar='|')
@@ -44,6 +47,19 @@ class TrainingData:
         with open(modeldatatraining, 'rb') as fid:
             self.clf = pickle.load(fid)
             #self.clf = joblib.load(modeldatatraining)
+
+    def getFeatureList(self, featurefile):
+        featurelist = {
+                positive : [], 
+                negative : [],
+                neutral : []
+            }
+
+        for feature in featurefile:
+            featurearray = feature.strip().split(',')
+            featurelist[featurearray[1]].append(featurearray[0])
+
+        return featurelist
 
     #start getStopWordList
     def getStopWordList(self,stopWordListFileName):
@@ -155,56 +171,44 @@ class TrainingData:
         tfidfDocument = TfIdf()
 
         tweets = []
+        x1 = []
+
+        tfidfresult = {
+            positive : [], 
+            negative : [],
+            neutral : []
+            }
+
+        tfidfweight = {
+            positive : [], 
+            negative : [],
+            neutral : []
+            }
 
         # start loop
         for i, row in enumerate(self.inpTweets):
+            hasil  = []
             sentiment = row[0].replace('|','')
             tweet = row[1].replace('|', '')
-            
-            #self.list.addItem(''.join(["preprocessing data ke ", str(i)," tweet : ", tweet]))
 
             #tahap preprocessing
             processedTweet = self.processTweet(tweet)
             featureVector = self.preprocessingData(processedTweet, self.stopWords)
-            tweets.append((featureVector, sentiment))
+            #tweets.append((tweet,processedTweet, featureVector))
+            hasil.append(tweet)
+            hasil.append(processedTweet)
+            hasil.append(featureVector)
+
+            tweets.append(hasil)
 
              # tahap binary
-            tfidfDocument.add_document(i,featureVector)
+            tfidfDocument.add_document(i, featureVector)
 
-            if (sentiment == 'positive' ):
-                document['positif'].append(tweet)
-
-                for feature in featureVector:
-                    featurelist['positif'].append(feature)
-
-                featurelist['positif'] = list(set(featurelist['positif']))
-
-                label.append(positive)
-
-            if (sentiment == 'negative' ):
-                document['negative'].append(tweet)
-
-                for feature in featureVector:
-                   featurelist['negative'].append(feature)
-
-                featurelist['negative'] = list(set(featurelist['negative']))
-
-                label.append(negative)
-
-            if (sentiment == 'neutral' ):
-                document['neutral'].append(tweet)
-
-                for feature in featureVector:
-                   featurelist['neutral'].append(feature)
-
-                featurelist['neutral'] = list(set(featurelist['neutral']))
-
-                label.append(neutral)
-        
         # mendapatkan pembobotan menggunakan tf idf
-        for i, feature in enumerate(featurelist):
+        for i, feature in enumerate(self.feature):
             print("generating tf idf per feature : ", feature)
-            tfidfresult[feature] = tfidfDocument.similarities(featurelist[feature])
+            print(self.feature[feature])
+            tfidfresult[feature] = tfidfDocument.similarities(self.feature[feature])
             
             for x in tfidfresult[feature]:
                 tfidfweight[feature].append(x[1])
@@ -218,29 +222,16 @@ class TrainingData:
         # merubah ke variable yang bisa diterima oleh svm
         for i, row in enumerate(tfidfweight[positive]):
             a = [tfidfresult[positive][i][1],tfidfresult[negative][i][1], tfidfresult[neutral][i][1]]
-
-            particle[label[i]].append(a)
-
             x1.append(a)
-    
-
-        for i, x in enumerate(particle):
-            print(i)
-            print(particle[x])
-
-            lb = []
-
-            for i in particle[x]:
-                tmp = []
-                for a in i:
-                    tmp.append(-1)
-                lb.append(tmp)
-
-            print(lb)
-            #print(pso(self.persamaanSVM, lb, particle[x]))
 
         a = x1
-        print(self.clf.predict(a))
+        hasilpredict = self.clf.predict(a)
+
+        for (i, value) in enumerate(hasilpredict):
+            tweets[i].append(hasilpredict[i])
+
+        return tweets
+
 
 class TfIdf:
     def __init__(self):
@@ -264,11 +255,6 @@ class TfIdf:
         self.documents.append([doc_name, doc_dict])
 
     def similarities(self, list_of_words):
-        """Returns a list of all the [docname, similarity_score] pairs relative to a
-list of words.
-
-        """
-
         # building the query dictionary
         query_dict = {}
         for w in list_of_words:

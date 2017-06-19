@@ -1,6 +1,7 @@
 """
 Definition of views.
 """
+from sys import path
 
 from django.shortcuts import render
 from django.http import HttpRequest
@@ -11,6 +12,10 @@ from .forms import UploadFileForm, UploadFileTesting, UploadFileFeature
 from .models import SaveFileForm, setting, testingData, FeatureList
 
 from .TextMiningTesting import *
+
+setting_feature_list = "featurelist"
+setting_pickle_file = "datatrain"
+
 
 def home(request):
     """Renders the home page."""
@@ -24,6 +29,7 @@ def home(request):
         }
     )
 
+#'''
 def contact(request):
     """Renders the contact page."""
     assert isinstance(request, HttpRequest)
@@ -49,6 +55,11 @@ def about(request):
             'year':datetime.now().year,
         }
     )
+#'''
+
+'''
+method yang digunakan untuk testing data
+'''
 
 def testing(request):
     #assert isinstance(request, HttpRequest)
@@ -64,23 +75,27 @@ def testing(request):
             saved = True
 
             dir_path = os.path.dirname(os.path.realpath(__file__))
-            datatrain = setting.objects.filter(tag = "datatrain")[0]
-
-            print("".join([dir_path,'/../media/', str(testingfilesave.datatesting)]))
+            datatrain = setting.objects.filter(tag = setting_pickle_file)[0]
+            featurelistfile = setting.objects.filter(tag = setting_feature_list)[0]
 
             train = TrainingData(
                 "".join([dir_path,'/../media/', str(testingfilesave.datatesting)]), 
                 'data/feature_list/id-stopwords.txt',
-                "".join([dir_path,'/../media/', str(datatrain.valuedata)])
+                "".join([dir_path,'/../media/', str(datatrain.valuedata)]),
+                "".join([dir_path,'/../media/', str(featurelistfile.valuedata)]),
                 )
-            train.run()
+            hasil = train.run()
     else:
         testignidlesave = testingData()
 
     return render(request,'app/testing.html', locals()
 )
 
-def upload(request):
+'''
+method yang digunakan untuk data training
+'''
+
+def uploaddatatraining(request):
     saved = False
     #assert isinstance(request, HttpRequest)
     
@@ -98,7 +113,7 @@ def upload(request):
         file = SaveFileForm()
 
     gambars = SaveFileForm.objects.all()
-    datatrain = setting.objects.filter(tag = "datatrain")[0]
+    datatrain = setting.objects.filter(tag = setting_pickle_file)[0]
 
     return render(
         request,
@@ -106,50 +121,104 @@ def upload(request):
         locals()
     )
 
+def hapusdatatraining(request):
+    hapus = False
+    dir_path = os.path.dirname(os.path.realpath(__file__))
 
-def pilihdatatraining(request):
-    
     if request.method == "GET" and 'datatrain' in request.GET:
-        datatrain = setting.objects.filter(tag = "datatrain")[0]
+        datatrain = SaveFileForm.objects.filter(datatraining = request.GET['datatrain'])
 
-        if datatrain == None:
-            set = setting(tag = "datatrain", valuedata = request.GET['datatrain'])
-            set.save()
-        else:
-            datatrain.valuedata = request.GET['datatrain']
-            datatrain.save()
+        datatrainsetting = setting.objects.filter(tag = setting_pickle_file)
+
+        if len(datatrainsetting) > 0:
+            datatersimpan = datatrainsetting[0].valuedata
+
+        if len(datatrain) > 0 :
+            if datatrain[0].datatraining.name != datatersimpan:
+                filepath = "".join([dir_path,'/../media/', datatrain[0].datatraining.name])
+
+                if os.path.exists(filepath) :
+                    os.remove(filepath)
+
+                datatrain[0].delete()
+                hapus = True
+            else:
+                hapus = False
 
     gambars = SaveFileForm.objects.all()
 
     return render(request, 'app/upload.html', locals())
 
-def pilihfeature(request):
-    if request.method == "GET" and 'datafeature' in request.GET:
-        datatrain = setting.objects.filter(tag = "featurelist")[0]
 
-        if datatrain == None:
-            set = setting(tag = "featurelist", valuedata = request.GET['datafeature'])
+def pilihdatatraining(request):
+    
+    if request.method == "GET" and 'datatrain' in request.GET:
+        datatrain = setting.objects.filter(tag = setting_pickle_file)
+
+        if len(datatrain) == 0:
+            set = setting(tag = setting_pickle_file, valuedata = request.GET['datatrain'])
             set.save()
         else:
-            datatrain.valuedata = request.GET['datafeature']
-            datatrain.save()
+            datatrain[0].valuedata = request.GET['datatrain']
+            datatrain[0].save()
 
     gambars = SaveFileForm.objects.all()
+
+    return render(request, 'app/upload.html', locals())
+
+'''
+method yang diguankan untuk feature
+'''
+
+def pilihfeature(request):
+    if request.method == "GET" and 'datafeature' in request.GET:
+        datatrain = setting.objects.filter(tag = setting_feature_list)
+
+        if len(datatrain) == 0:
+            set = setting(tag = setting_feature_list, valuedata = request.GET['datafeature'])
+            set.save()
+        else:
+            datatrain[0].valuedata = request.GET['datafeature']
+            datatrain[0].save()
+
+    gambars = FeatureList.objects.all()
 
     return render(request, 'app/featurelist.html', locals())
 
 def hapusfeature(request):
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    hapus = False
     
-    if request.method == "GET" and 'datatrain' in request.GET:
-        datatrain = setting.objects.filter(tag = "datatrain")[0]
+    if request.method == "GET" and 'datafeature' in request.GET:
+        datatrain = FeatureList.objects.filter(FeatureList = request.GET['datafeature'])
 
-    gambars = SaveFileForm.objects.all()
+        datafeaturesave = setting.objects.filter(tag = setting_feature_list)
+
+        datatersimpan = ""
+
+        if len(datafeaturesave) > 0: 
+            datatersimpan = datafeaturesave[0].valuedata
+            
+        if len(datatrain) > 0 :
+            if datatrain[0].FeatureList.name != datatersimpan:
+                
+                filepath = "".join([dir_path,'/../media/', datatrain[0].FeatureList.name])
+
+                if os.path.exists(filepath): 
+                    os.remove(filepath)
+
+                datatrain[0].delete()
+
+                hapus = True
+            else:
+                hapus = False
+
+    gambars = FeatureList.objects.all()
 
     return render(request, 'app/featurelist.html', locals())
 
 def feature(request):
     saved = False
-    #assert isinstance(request, HttpRequest)
     
     if request.method == "POST":
         fileForm = UploadFileFeature(request.POST, request.FILES)
@@ -163,10 +232,11 @@ def feature(request):
         file = FeatureList()
 
     gambars = FeatureList.objects.all()
-#   datatrain = setting.objects.filter(tag = "featurelist")[0]
+    datatrain = setting.objects.filter(tag = setting_feature_list)
 
     return render(
         request,
         'app/featurelist.html',
         locals()
     )
+    return

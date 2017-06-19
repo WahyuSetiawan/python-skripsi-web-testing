@@ -5,9 +5,109 @@
 <h1>Hasil Testing Pada Aplikasi</h1>
 
 <div class="panel panel-default">
+
+    <div id="donut-example" style="height: 250px;"></div>
+
     <div class="panel-body">
+        <ul class="nav nav-tabs" role="tablist" id="tabhasil">
+            <li role="presentation" class="active">
+                <a href="#positive" role="tab" data-toggle="tab" aria-controls="positive">Positive</a>
+            </li>
+            <li role="presentation">
+                <a href="#negative" aria-controls="negative" role="tab" data-toggle="negative">Negative</a>
+            </li>
+            <li role="presentation">
+                <a href="#netral" role="tab" aria-controls="netral" data-toggle="netral">Netral</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="positive"> 
+                <table class="table table-striped">
+                        <tr>
+                            <th>No</th>
+                            <th>Tweet</th>
+                            <th>Token</th>
+                            <th>Hasil</th>
+                        </tr>
+                        {% for data in hasil %}
+                            <tr>
+                                {% if data.3 == "positive" %}
+                                    <td> {{ data.0 }}</td>
+                                    <td> {{ data.1 }}</td>
+                                    <td> {{ data.2 }}</td>
+                                    <td> {{ data.3 }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="negative">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>No</th>
+                            <th>Tweet</th>
+                            <th>Token</th>
+                            <th>Hasil</th>
+                        </tr>
+                        {% for data in hasil %}
+                            <tr>
+                                {% if data.3 == "negative" %}
+                                    <td> {{ data.0 }}</td>
+                                    <td> {{ data.1 }}</td>
+                                    <td> {{ data.2 }}</td>
+                                    <td> {{ data.3 }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="netral">        
+                <table class="table table-striped">
+                        <tr>
+                            <th>No</th>
+                            <th>Tweet</th>
+                            <th>Token</th>
+                            <th>Hasil</th>
+                        </tr>
+                        {% for data in hasil %}
+                            <tr>
+                                {% if data.3 == "neutral" %}
+                                    <td> {{ data.0 }}</td>
+                                    <td> {{ data.1 }}</td>
+                                    <td> {{ data.2 }}</td>
+                                    <td> {{ data.3 }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                </table>
+            </div>
+        </div>
+
 
     </div>
 </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script type="text/javascript">
+    $('#tabhasil a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+
+    $(document).ready(function () {
+        Morris.Donut({
+            element: 'donut-example',
+            data: [
+                { label: "Download Sales", value: 12 },
+                { label: "In-Store Sales", value: 30 },
+                { label: "Mail-Order Sales", value: 20 }
+            ]
+        });
+    });
+</script>
 
 {% endblock %}

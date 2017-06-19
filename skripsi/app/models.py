@@ -14,7 +14,7 @@ class SaveFileForm(models.Model):
       db_table = "SaveFileForm"
 
 class setting(models.Model):
-    tag = models.CharField(max_length = 100, null = False, default = "1")
+    tag = models.CharField(max_length = 100, null = False, default = "1",primary_key=True)
     valuedata = models.CharField(max_length = 100,null = False, default = "1")
 
     class Meta:

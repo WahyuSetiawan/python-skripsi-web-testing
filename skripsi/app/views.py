@@ -63,9 +63,10 @@ def about(request):
 method yang digunakan untuk testing data
 '''
 
-def testing(request): return Testing.index(request)
-def daftartesting(request): return Testing.daftarTesting(request)
-def hapustesting(request): return Testing.hapusTesting(request)
+def testing(request): return Testing().index(request)
+def daftartesting(request): return Testing().daftarTesting(request)
+def hapustesting(request): return Testing().hapusTesting(request)
+def hapussemuatesting(request): return Testing().hapusSemuaTesting(request)
 
 '''
 method yang digunakan untuk data training

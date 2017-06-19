@@ -17,7 +17,7 @@ from app.Utility.TextMiningTesting import TrainingData
 class Testing(object):
     """description of class"""
 
-    def index(request):
+    def index(self, request):
         #assert isinstance(request, HttpRequest)
         saved = False
 
@@ -70,12 +70,12 @@ class Testing(object):
 
         return render(request,'app/testing.html', locals())
 
-    def daftarTesting(request):
+    def daftarTesting(self, request):
         filetesting = testingData.objects.all()
 
         return render(request, 'app/daftartesting.html', locals())
 
-    def hapusTesting(request):
+    def hapusTesting(self, request):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         
         if request.method == "GET" and 'datatesting' in request.GET:
@@ -92,7 +92,22 @@ class Testing(object):
                 datatesting[0].delete()
 
                 hapus = True
+                
+        return self.daftarTesting(request)
 
-        filetesting = testingData.objects.all()
+    def hapusSemuaTesting(self, request):
+        testings = testingData.objects.all()
 
-        return render(request, 'app/daftartesting.html', locals())
+        print(testings)
+
+        for testing in testings:
+                filepath = "".join([st.MEDIA_ROOT,'/',testing.datatesting.name])
+
+                print(filepath)
+
+                if os.path.exists(filepath): 
+                    os.remove(filepath)
+
+                testing.delete()
+
+        return self.daftarTesting(request)

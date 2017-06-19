@@ -36,7 +36,7 @@
                         {% for data in hasil %}
                             <tr>
                                 {% if data.3 == "positive" %}
-                                    <td> {{ data.0 }}</td>
+                                    <td> {{ forloop.counter }}</td>
                                     <td> {{ data.1 }}</td>
                                     <td> {{ data.2 }}</td>
                                     <td> {{ data.3 }}</td>
@@ -56,7 +56,7 @@
                         {% for data in hasil %}
                             <tr>
                                 {% if data.3 == "negative" %}
-                                    <td> {{ data.0 }}</td>
+                                    <td> {{ forloop.counter }}</td>
                                     <td> {{ data.1 }}</td>
                                     <td> {{ data.2 }}</td>
                                     <td> {{ data.3 }}</td>
@@ -76,7 +76,7 @@
                         {% for data in hasil %}
                             <tr>
                                 {% if data.3 == "neutral" %}
-                                    <td> {{ data.0 }}</td>
+                                    <td> {{ forloop.counter }}</td>
                                     <td> {{ data.1 }}</td>
                                     <td> {{ data.2 }}</td>
                                     <td> {{ data.3 }}</td>
@@ -111,6 +111,8 @@
                 { label: "Neutral", value: {{ counterhasil.neutral }} }
             ]
         });
+
+         $('#table').dataTable()
     });
 </script>
 

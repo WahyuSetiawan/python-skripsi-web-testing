@@ -42,6 +42,7 @@ urlpatterns = [
     url(r'^testing',  app.views.testing, name="testing"),
     url(r'^daftartesting',  app.views.daftartesting, name="daftartesting"),
     url(r'^hapustesting',  app.views.hapustesting, name="hapustesting"),
+    url(r'^hapussemuatesting',  app.views.hapussemuatesting, name="hapussemuatesting"),
 
 
     url(r'^uploaddatatraining',  app.views.uploaddatatraining, name="uploaddatatraining"),

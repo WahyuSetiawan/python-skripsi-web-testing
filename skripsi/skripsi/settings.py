@@ -128,3 +128,7 @@ STATIC_ROOT = posixpath.join(*(BASE_DIR.split(os.path.sep) + ['static']))
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+setting_feature_list = "featurelist"
+setting_pickle_file = "datatrain"
+setting_stopwords_file = "datastopwords"

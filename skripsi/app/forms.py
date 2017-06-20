@@ -25,3 +25,6 @@ class UploadFileTesting(forms.Form):
 
 class UploadFileFeature(forms.Form):
     featurefile = forms.FileField()
+
+class StopwordsFrom(forms.Form):
+    stopword = forms.FileField()

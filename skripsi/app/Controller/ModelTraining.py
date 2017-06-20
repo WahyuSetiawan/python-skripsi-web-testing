@@ -6,13 +6,14 @@ from django.template import RequestContext
 from datetime import datetime
 
 from app.forms import UploadFileFeature, UploadFileForm, UploadFileTesting
-from app.models import SaveFileForm, setting, testingData, FeatureList
-from app.views import setting_pickle_file, setting_feature_list
+from app.models import ModelTraining, Setting, TestingData, FeatureList
 
-class ModelTraining(object):
+import skripsi.settings as st
+
+class ModelTrainingController(object):
     """description of class"""
 
-    def index(request):
+    def index(self, request):
         #assert isinstance(request, HttpRequest)
     
         if request.method == "POST":
@@ -21,53 +22,44 @@ class ModelTraining(object):
             print(fileForm.is_valid())
 
             if fileForm.is_valid():
-                imagesave = SaveFileForm()
+                imagesave = ModelTraining()
                 imagesave.datatraining = fileForm.cleaned_data['datatraining']
                 imagesave.save()
                 saved = True
 
         else :
-            file = SaveFileForm()
+            file = ModelTraining()
 
-        gambars = SaveFileForm.objects.all()
-        datatrain = setting.objects.filter(tag = setting_pickle_file)
+        return self.tampilHalaman(request)
 
-        return render(
-            request,
-            'app/upload.html',
-            locals()
-        )
 
-    def select(request):
+    def select(self, request):
         if request.method == "GET" and 'datatrain' in request.GET:
-            datatrain = setting.objects.filter(tag = setting_pickle_file)
+            datatrain = Setting.objects.filter(tag = st.setting_pickle_file)
 
             if len(datatrain) == 0:
-                set = setting(tag = setting_pickle_file, valuedata = request.GET['datatrain'])
+                set = Setting(tag = st.setting_pickle_file, valuedata = request.GET['datatrain'])
                 set.save()
             else:
                 datatrain[0].valuedata = request.GET['datatrain']
                 datatrain[0].save()
 
-        gambars = SaveFileForm.objects.all()
-        datatrain = setting.objects.filter(tag = setting_pickle_file)
+        return self.tampilHalaman(request)
 
-        return render(request, 'app/upload.html', locals())
-
-    def remove(request):
+    def remove(self, request):
         hapus = False
         dir_path = os.path.dirname(os.path.realpath(__file__))
 
         if request.method == "GET" and 'datatrain' in request.GET:
-            datatrain = SaveFileForm.objects.filter(datatraining = request.GET['datatrain'])
-
-            datatrainsetting = setting.objects.filter(tag = setting_pickle_file)
+            datatrain = ModelTraining.objects.filter(id = request.GET['datatrain'])
+            datatrainsetting = Setting.objects.filter(tag = st.setting_pickle_file)
+            datatersimpan = None
 
             if len(datatrainsetting) > 0:
                 datatersimpan = datatrainsetting[0].valuedata
 
             if len(datatrain) > 0 :
-                if datatrain[0].datatraining.name != datatersimpan:
+                if str(datatrain[0].id) != str(datatersimpan):
                     filepath = "".join([st.MEDIA_ROOT,'/', datatrain[0].datatraining.name])
 
                     if os.path.exists(filepath) :
@@ -78,10 +70,20 @@ class ModelTraining(object):
                 else:
                     hapus = False
 
-        gambars = SaveFileForm.objects.all()
-        datatrain = setting.objects.filter(tag = setting_pickle_file)
+        return self.tampilHalaman(request)
 
-        return render(request, 'app/upload.html', locals())
+
+    def tampilHalaman(self, request):
+        modeltraining = ModelTraining.objects.all()
+        idsimpan = Setting.objects.filter(tag = st.setting_pickle_file)
+        if len(idsimpan) > 0 :
+            datatrain = ModelTraining.objects.filter(id = idsimpan[0].valuedata)
+
+        return render(
+            request,
+            'app/upload.html',
+            locals()
+        )
 
 
 

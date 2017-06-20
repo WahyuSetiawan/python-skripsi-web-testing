@@ -6,18 +6,18 @@ from django.http import HttpRequest
 from django.template import RequestContext
 
 from app.forms import UploadFileFeature
-from app.models import FeatureList, setting
-from app.views import setting_feature_list
+from app.models import FeatureList, Setting
 
 import skripsi.settings as st
 
-class Feature(object):
-    def index(request):
+class FeatureController(object):
+    def index(self, request):
         if request.method == "POST":
             saved = False
             fileForm = UploadFileFeature(request.POST, request.FILES)
 
             if fileForm.is_valid():
+                print("simpan feature list")
                 featurelist = FeatureList()
                 featurelist.FeatureList = fileForm.cleaned_data['featurefile']
                 featurelist.save()
@@ -25,30 +25,26 @@ class Feature(object):
         else :
             file = FeatureList()
 
-        gambars = FeatureList.objects.all()
-        datatrain = setting.objects.filter(tag = setting_feature_list)
+        return self.tampilHalaman(request)
 
-        return render(
-            request,
-            'app/featurelist.html',
-            locals()
-        )
-
-    def remove( request):
+    def remove(self, request):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         hapus = False
     
         if request.method == "GET" and 'datafeature' in request.GET:
-            datatrain = FeatureList.objects.filter(FeatureList = request.GET['datafeature'])
-            datafeaturesave = setting.objects.filter(tag = setting_feature_list)
-            datatersimpan = ""
+            datatrain = FeatureList.objects.filter(id = request.GET['datafeature'])
+            datafeaturesave = Setting.objects.filter(tag = st.setting_feature_list)
+            datatersimpan = None
 
             if len(datafeaturesave) > 0: 
                 datatersimpan = datafeaturesave[0].valuedata
-            
+
             if len(datatrain) > 0 :
-                if datatrain[0].FeatureList.name != datatersimpan:
-                
+                print(datatrain[0].id)
+                print(datatersimpan)
+                if str(datatrain[0].id) == str(datatersimpan):
+                    hapus = False
+                else:
                     filepath = "".join([st.MEDIA_ROOT,'/',datatrain[0].FeatureList.name])
 
                     if os.path.exists(filepath): 
@@ -57,26 +53,32 @@ class Feature(object):
                     datatrain[0].delete()
 
                     hapus = True
-                else:
-                    hapus = False
+                    
 
-        gambars = FeatureList.objects.all()
-        datatrain = setting.objects.filter(tag = setting_feature_list)
+        return self.tampilHalaman(request)
 
-        return render(request, 'app/featurelist.html', locals())
-
-    def select(request):
+    def select(self, request):
         if request.method == "GET" and 'datafeature' in request.GET:
-            datatrain = setting.objects.filter(tag = setting_feature_list)
+            datatrain = Setting.objects.filter(tag = st.setting_feature_list)
 
             if len(datatrain) == 0:
-                set = setting(tag = setting_feature_list, valuedata = request.GET['datafeature'])
+                set = Setting(tag = st.setting_feature_list, valuedata = request.GET['datafeature'])
                 set.save()
             else:
                 datatrain[0].valuedata = request.GET['datafeature']
                 datatrain[0].save()
 
-        gambars = FeatureList.objects.all()
-        datatrain = setting.objects.filter(tag = setting_feature_list)
+        return self.tampilHalaman(request)
 
-        return render(request, 'app/featurelist.html', locals())
+    def tampilHalaman(self, request):
+        
+        features = FeatureList.objects.all()
+        idsetting  = Setting.objects.filter(tag = st.setting_feature_list)
+        if len(idsetting) > 0 :
+            datatrain = FeatureList.objects.filter(id = idsetting[0].valuedata)
+
+        return render(
+            request,
+            'app/featurelist.html',
+            locals()
+        )

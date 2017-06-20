@@ -37,6 +37,9 @@
     <Compile Include="app\Controller\ModelTraining.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="app\Controller\Stopwords.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\Controller\Testing.py">
       <SubType>Code</SubType>
     </Compile>
@@ -84,6 +87,7 @@
     <Content Include="app\static\app\content\Gunung-Bromo-Jawa-Timur.jpg" />
     <Content Include="app\static\app\content\website.css" />
     <Content Include="app\templates\app\daftartesting.html" />
+    <Content Include="app\templates\app\stopwords.html" />
     <Content Include="app\templates\app\testing.html" />
     <Content Include="app\templates\app\upload.html" />
     <Content Include="app\templates\app\featurelist.html" />

@@ -76,13 +76,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for data in gambars %}
+                    {% for data in features %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td>{{ data.FeatureList }}</td>
                             <td>
-                                <button class="btn btn-info" onclick="window.location.href = '{% url 'pilihfeature' %}?datafeature={{ data.FeatureList }}'" type="button">Pilih</button>
-                                <button class="btn btn-danger" onclick="window.location.href = '{% url 'hapusfeature' %}?datafeature={{ data.FeatureList }}'" type="button">Hapus</button>
+                                <button class="btn btn-info" onclick="window.location.href = '{% url 'pilihfeature' %}?datafeature={{ data.id }}'" type="button">Pilih</button>
+                                <button class="btn btn-danger" onclick="window.location.href = '{% url 'hapusfeature' %}?datafeature={{ data.id }}'" type="button">Hapus</button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -91,7 +91,7 @@
         </div>
 
         <div class="col-md-12">
-            Feature List yang terpilih sekarang : {{ datatrain.0.id }} - {{ datatrain.0.valuedata }}
+            Feature List yang terpilih sekarang : {{ datatrain.0.id }} - {{ datatrain.0.FeatureList }}
         </div>
     </div>
 </div>

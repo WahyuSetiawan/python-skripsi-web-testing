@@ -44,6 +44,9 @@ urlpatterns = [
     url(r'^hapustesting',  app.views.hapustesting, name="hapustesting"),
     url(r'^hapussemuatesting',  app.views.hapussemuatesting, name="hapussemuatesting"),
 
+    url(r'^uploadstopwords',  app.views.uploadstopwords, name="uploadstopwords"),
+    url(r'^pilihstopwords',  app.views.pilihstopwords, name="pilihstopwords"),
+    url(r'^hapusstopwords',  app.views.hapusstopwords, name="hapusstopwords"),
 
     url(r'^uploaddatatraining',  app.views.uploaddatatraining, name="uploaddatatraining"),
     url(r'^pilihdatatraining',  app.views.pilihdatatraining, name="pilihdatatraining"),

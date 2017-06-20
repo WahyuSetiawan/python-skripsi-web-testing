@@ -78,13 +78,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for data in gambars %}
+                    {% for data in modeltraining %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td>{{ data.datatraining }}</td>
                             <td>
-                                <button class="btn btn-info" onclick="window.location.href = '{% url 'pilihdatatraining' %}?datatrain={{ data.datatraining }}'" type="button">Pilih</button>
-                                <button class="btn btn-danger" onclick="window.location.href = '{% url 'hapusdatatraining' %}?datatrain={{ data.datatraining }}'" type="button">Hapus</button>
+                                <button class="btn btn-info" onclick="window.location.href = '{% url 'pilihdatatraining' %}?datatrain={{ data.id }}'" type="button">Pilih</button>
+                                <button class="btn btn-danger" onclick="window.location.href = '{% url 'hapusdatatraining' %}?datatrain={{ data.id }}'" type="button">Hapus</button>
                             </td>
                         </tr>
                     {% endfor %}
@@ -93,7 +93,7 @@
         </div>
 
         <div class="col-md-12">
-            Feature list sekarang : {{ datatrain.0.id }} - {{ datatrain.0.valuedata }}
+            Feature list sekarang : {{ datatrain.0.id }} - {{ datatrain.0.datatraining }}
         </div>
     </div>
 </div>

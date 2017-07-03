@@ -13,6 +13,7 @@ from app.forms import UploadFileFeature, UploadFileForm, UploadFileTesting
 from app.models import ModelTraining, Setting, TestingData, FeatureList, Stopwords
 
 from app.Utility.TextMiningTesting import TrainingData
+
 class TestingController(object):
     """description of class"""
 

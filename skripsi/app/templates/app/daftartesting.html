@@ -61,7 +61,7 @@
                             <td>{{ forloop.counter }}</td>
                             <td>{{ data.datatesting }}</td>
                             <td>
-                                <button class="btn btn-info" onclick="window.location.href = '{% url 'testing' %}?datatesting={{ data.id }}'" type="button">Run</button>
+                                <button class="btn btn-info" onclick="window.location.href = '{% url 'testing' %}?datatesting={{ data.id }}'" type="button">Klasifikasi</button>
                                 <button class="btn btn-danger" onclick="window.location.href = '{% url 'hapustesting' %}?datatesting={{ data.id }}'" type="button">Hapus</button>
                             </td>
                         </tr>

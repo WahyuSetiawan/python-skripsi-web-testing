@@ -14,26 +14,27 @@ class ModelTrainingController(object):
     """description of class"""
 
     def index(self, request):
+        pesan = ""
         #assert isinstance(request, HttpRequest)
     
         if request.method == "POST":
-            saved = False
+            pesan = "simpan|false"
             fileForm = UploadFileForm(request.POST, request.FILES)
-            print(fileForm.is_valid())
 
             if fileForm.is_valid():
                 imagesave = ModelTraining()
                 imagesave.datatraining = fileForm.cleaned_data['datatraining']
                 imagesave.save()
-                saved = True
+                pesan = "simpan|true"
 
         else :
             file = ModelTraining()
 
-        return self.tampilHalaman(request)
+        return self.tampilHalaman(request, pesan)
 
 
     def select(self, request):
+        pesan = ""
         if request.method == "GET" and 'datatrain' in request.GET:
             datatrain = Setting.objects.filter(tag = st.setting_pickle_file)
 
@@ -44,10 +45,12 @@ class ModelTrainingController(object):
                 datatrain[0].valuedata = request.GET['datatrain']
                 datatrain[0].save()
 
-        return self.tampilHalaman(request)
+            pesan = "select|true"
+
+        return self.tampilHalaman(request, pesan)
 
     def remove(self, request):
-        hapus = False
+        pesan = "hapus|false"
         dir_path = os.path.dirname(os.path.realpath(__file__))
 
         if request.method == "GET" and 'datatrain' in request.GET:
@@ -66,14 +69,23 @@ class ModelTrainingController(object):
                         os.remove(filepath)
 
                     datatrain[0].delete()
-                    hapus = True
+                    pesan = "hapus|true"
                 else:
-                    hapus = False
+                    pesan = "hapus|false"
 
-        return self.tampilHalaman(request)
+        return self.tampilHalaman(request , pesan)
 
 
-    def tampilHalaman(self, request):
+    def tampilHalaman(self, request, pesan):
+        if pesan == "simpan|true" :
+            saved = True
+        if pesan == "simpan|false" :
+            saved = False
+        if pesan == "hapus|true":
+            hapus = True
+        if pesan == "hapus|false":
+            hapus = False
+
         modeltraining = ModelTraining.objects.all()
         idsimpan = Setting.objects.filter(tag = st.setting_pickle_file)
         if len(idsimpan) > 0 :

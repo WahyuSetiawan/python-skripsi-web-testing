@@ -60,6 +60,10 @@ class TestingController(object):
                     arrayhasil = train.hasilpredict
                     counterhasil = collections.Counter(arrayhasil)
 
+                return render(request,'app/testing.html', locals())
+            else:
+                return render(request, 'app/testinggagal.html', locals())
+
         elif request.method == "GET" and 'datatesting' in request.GET:
             datatesting = TestingData.objects.filter(id = request.GET['datatesting'])
 
@@ -93,10 +97,12 @@ class TestingController(object):
                 arrayhasil = train.hasilpredict
                 counterhasil = collections.Counter(arrayhasil)
 
+            return render(request,'app/testing.html', locals())
+
         else:
             testignidlesave = testingData()
 
-        return render(request,'app/testing.html', locals())
+        return render(request, 'app/testigngagal.html', locals())
 
     def daftarTesting(self, request):
         filetesting = TestingData.objects.all()

@@ -191,8 +191,8 @@ class TrainingData:
         # start loop
         for i, row in enumerate(self.inpTweets):
             hasil  = []
-            sentiment = row[0].replace('|','')
-            tweet = row[1].replace('|', '')
+            sentiment = row[0]
+            tweet = row[1]
 
             #tahap preprocessing
             processedTweet = self.processTweet(tweet)
@@ -206,6 +206,8 @@ class TrainingData:
 
              # tahap binary
             tfidfDocument.add_document(i, featureVector)
+
+            print(tweet)
 
         # mendapatkan pembobotan menggunakan tf idf
         for i, feature in enumerate(self.feature):

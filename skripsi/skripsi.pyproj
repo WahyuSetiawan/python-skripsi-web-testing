@@ -47,6 +47,9 @@
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
     <Compile Include="app\tests.py" />
+    <Compile Include="app\Utility\formatChecker.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\Utility\TextMiningTesting.py">
       <SubType>Code</SubType>
     </Compile>
@@ -89,6 +92,7 @@
     <Content Include="app\templates\app\daftartesting.html" />
     <Content Include="app\templates\app\stopwords.html" />
     <Content Include="app\templates\app\testing.html" />
+    <Content Include="app\templates\app\testinggagal.html" />
     <Content Include="app\templates\app\upload.html" />
     <Content Include="app\templates\app\featurelist.html" />
     <Content Include="app\Utility\tfidf.pyc" />

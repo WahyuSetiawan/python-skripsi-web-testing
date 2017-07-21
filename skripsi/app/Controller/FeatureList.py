@@ -12,8 +12,9 @@ import skripsi.settings as st
 
 class FeatureController(object):
     def index(self, request):
+        pesan = ""
         if request.method == "POST":
-            saved = False
+            pesan = "simpan|false"
             fileForm = UploadFileFeature(request.POST, request.FILES)
 
             if fileForm.is_valid():
@@ -21,15 +22,15 @@ class FeatureController(object):
                 featurelist = FeatureList()
                 featurelist.FeatureList = fileForm.cleaned_data['featurefile']
                 featurelist.save()
-                saved = True
+                pesan = "simpan|true"
         else :
             file = FeatureList()
 
-        return self.tampilHalaman(request)
+        return self.tampilHalaman(request, pesan)
 
     def remove(self, request):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        hapus = False
+        pesan = "hapus|false"
     
         if request.method == "GET" and 'datafeature' in request.GET:
             datatrain = FeatureList.objects.filter(id = request.GET['datafeature'])
@@ -43,7 +44,7 @@ class FeatureController(object):
                 print(datatrain[0].id)
                 print(datatersimpan)
                 if str(datatrain[0].id) == str(datatersimpan):
-                    hapus = False
+                    pesan = "hapus|false"
                 else:
                     filepath = "".join([st.MEDIA_ROOT,'/',datatrain[0].FeatureList.name])
 
@@ -52,12 +53,13 @@ class FeatureController(object):
 
                     datatrain[0].delete()
 
-                    hapus = True
+                    pesan = "hapus|true"
                     
 
         return self.tampilHalaman(request)
 
     def select(self, request):
+        pesan = ""
         if request.method == "GET" and 'datafeature' in request.GET:
             datatrain = Setting.objects.filter(tag = st.setting_feature_list)
 
@@ -68,9 +70,17 @@ class FeatureController(object):
                 datatrain[0].valuedata = request.GET['datafeature']
                 datatrain[0].save()
 
-        return self.tampilHalaman(request)
+        return self.tampilHalaman(request, pesan)
 
-    def tampilHalaman(self, request):
+    def tampilHalaman(self, request, pesan):
+        if pesan == "simpan|true" :
+            saved = True
+        if pesan == "simpan|false" :
+            saved = False
+        if pesan == "hapus|true":
+            hapus = True
+        if pesan == "hapus|false":
+            hapus = False
         
         features = FeatureList.objects.all()
         idsetting  = Setting.objects.filter(tag = st.setting_feature_list)

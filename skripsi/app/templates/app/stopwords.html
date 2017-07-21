@@ -51,18 +51,19 @@
                 Upload stopwords :
                 </h4>
             </strong>
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data" action="{% url 'uploadstopwords' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="stopword">File input</label>
+                        <input type="file" name="stopword" id="stopword" accept=".txt">
+                    </div>
+                    <button type="submit" class="btn btn-success">Upload</button>
+                </form>
+            </div>
         </div>
 
-        <div class="col-md-12">
-            <form method="post" enctype="multipart/form-data" action="{% url 'uploadstopwords' %}">
-                {% csrf_token %}
-                <div class="form-group">
-                    <label for="stopword">File input</label>
-                    <input type="file" name="stopword" id="stopword" accept=".txt">
-                </div>
-                <button type="submit" class="btn btn-success">Upload</button>
-            </form>
-        </div>
+       
 
         <div class="col-md-12">
             <h4>Daftar Data Stopwords : </h4>

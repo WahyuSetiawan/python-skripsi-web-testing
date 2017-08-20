@@ -172,6 +172,7 @@ class TrainingData:
     # run program pemanggilan data
     def run(self):
         tfidfDocument = TfIdf()
+        tfidfDocument2 = TfIdf()
 
         tweets = []
         x1 = []
@@ -188,8 +189,16 @@ class TrainingData:
             neutral : []
             }
 
+        tfidfDocument2.add_document(positive, self.feature[positive])
+        tfidfDocument2.add_document(negative, self.feature[negative])
+        tfidfDocument2.add_document(neutral, self.feature[neutral])
+
+        a = []
+
         # start loop
         for i, row in enumerate(self.inpTweets):
+            tfidfDocument1 = TfIdf()
+
             hasil  = []
             sentiment = row[0]
             tweet = row[1]
@@ -204,32 +213,49 @@ class TrainingData:
 
             tweets.append(hasil)
 
-             # tahap binary
+            # tahap binary
             tfidfDocument.add_document(i, featureVector)
+            tfidfDocument1.add_document(i, featureVector)
 
-            print(tweet)
+            b = tfidfDocument2.similarities(featureVector)
 
-        # mendapatkan pembobotan menggunakan tf idf
+            tfidfweight[positive].append(tfidfDocument1.similarities(self.feature[positive]))
+            tfidfweight[negative].append(tfidfDocument1.similarities(self.feature[negative]))
+            tfidfweight[neutral].append(tfidfDocument1.similarities(self.feature[neutral]))
+
+            print(b)
+
+            x = [b[0][1],b[1][1],b[2][1]]
+
+            a.append(x)
+
+
+
+        '''
         for i, feature in enumerate(self.feature):
             print("generating tf idf per feature : ", feature)
             print(self.feature[feature])
             tfidfresult[feature] = tfidfDocument.similarities(self.feature[feature])
             
+            
             for x in tfidfresult[feature]:
                 tfidfweight[feature].append(x[1])
+            
 
             print(tfidfresult[feature])
             print(tfidfweight[feature])
 
             print('\n\n')
-
+        '''
      
-        # merubah ke variable yang bisa diterima oleh svm
+        # merubah ke variable yang bisa diterima oleh svm\
+        '''
         for i, row in enumerate(tfidfweight[positive]):
             a = [tfidfresult[positive][i][1],tfidfresult[negative][i][1], tfidfresult[neutral][i][1]]
             x1.append(a)
+        '''
 
-        a = x1
+        #a = x1
         self.hasilpredict = self.clf.predict(a)
 
         for (i, value) in enumerate(self.hasilpredict):
